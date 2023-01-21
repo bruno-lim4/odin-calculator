@@ -19,7 +19,7 @@ body {
     background-color: #545454;
 
     margin: 0 auto;
-    width: 300px;
+    width: 275px;
     height: 375px;
     border: 2px solid black;
 
@@ -69,6 +69,8 @@ body {
 }
 
 .grid > div {
+    transition: all 0.07s;
+
     user-select: none;
     cursor: pointer;
 
@@ -127,4 +129,12 @@ body {
     background: radial-gradient(ellipse farthest-corner at center center, rgba(211,24,24,0.7) 0%, rgba(223,12,12,0.7) 80%);
     background: -webkit-radial-gradient(ellipse farthest-corner at center center, rgba(211,24,24,0.7) 0%, rgba(223,12,12,0.7) 80%);
     background: -moz-radial-gradient(ellipse farthest-corner at center center, rgba(211,24,24,0.7) 0%, rgba(223,12,12,0.7) 80%);
+}
+
+
+
+
+.grid > div.click {
+    box-shadow: none;
+    filter: brightness(1.3);
 }
