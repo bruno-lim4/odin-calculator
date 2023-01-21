@@ -42,6 +42,7 @@ body {
     margin: 20px auto;
     padding: 6px 0;
     width: 192px;
+    height: 65px;
 }
 
 .display > div {
@@ -54,6 +55,8 @@ body {
 .display .previous {
     opacity: 0.9;
     font-size: 1.2rem;
+
+    height: 22px;
 }
 
 .grid {
