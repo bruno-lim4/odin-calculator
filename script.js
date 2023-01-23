@@ -1,5 +1,7 @@
 let currentNumber = ''
 
+let decimals = 0
+
 let fullOperation = []
 let lastOperation = []
 
@@ -13,14 +15,30 @@ document.querySelectorAll('img').forEach((btn) => {
     btn.addEventListener('click', (e) => {
         e.target.parentNode.classList.add('click');
         setTimeout(() => e.target.parentNode.classList.remove('click'), 100);
+
+        handleBackspace();
     })
+
+    
 })
 document.querySelectorAll('.grid-item').forEach((btn) => {
     btn.addEventListener('click', (e) => {
         e.target.classList.add('click');
         setTimeout(() => e.target.classList.remove('click'), 100);
 
+        if(e.target.classList.contains('del')) {
+            if(e.target.classList.contains('backspace')) {
+                handleBackspace();
+            } else {
+                resetCalc();
+            }
+        }
+
         if(e.target.classList.contains('dig')) {
+            if (decimals > 0 && e.target.textContent == '.') return;
+
+            if (e.target.textContent == '.') decimals++;
+
             if (currentNumber.length == 0 && e.target.textContent == '.') {
                 return;
             } else if (operationJustFinished) {
@@ -74,6 +92,20 @@ document.querySelectorAll('.grid-item').forEach((btn) => {
 // Basic Functions
 function updateCurrent(s) {
     current.textContent = s;
+    if (s.length == 0) {
+        decimals = 0;
+    } else {
+        let num = +s;
+        if (s%1 > 0) {
+            decimals = 1
+        } else {
+            if (!s.contains('.')) {
+                decimals = 0;
+            } else {
+                decimals = 1;
+            }
+        }
+    }
 }
 function updatePrevious(s) {
     previous.textContent = s;
@@ -89,9 +121,10 @@ function operate(op) {
     } else if (op[1] == '/') {
         if (n2 == 0) {
             updateCurrent("DON'T DO THAT!");
+            fullOperation = [];
+            operationJustFinished=true;
             return;
         }
-
         ans = n1/n2;
     } else if (op[1] == '+') {
         ans = n1+n2;
@@ -99,11 +132,38 @@ function operate(op) {
         ans = n1-n2;
     }
 
+    if (ans%1 > 0) {
+        decimals = 1;
+    } else {
+        decimals = 0;
+    }
+
+    ans = Math.round(ans * 1000) / 1000
+
     currentNumber = ans.toString();
     operationJustFinished = true;
     updateCurrent(ans);
 
     lastOperation = fullOperation;
     fullOperation = [];
+}
+function handleBackspace() {
+    if (currentNumber.length == 0) return;
+    currentNumber = currentNumber.slice(0,-1);
+
+    if (currentNumber[currentNumber.length-1] == '.') decimals--;
+
+    updateCurrent(currentNumber);
+}
+function resetCalc() {
+    currentNumber = '';
+    decimals = 0
+    fullOperation = [];
+    lastOperation = [];
+
+    operationJustFinished = false;
+
+    updateCurrent(currentNumber);
+    updatePrevious('');
 }
 
