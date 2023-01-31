@@ -92,14 +92,15 @@ document.querySelectorAll('.grid-item').forEach((btn) => {
 // Basic Functions
 function updateCurrent(s) {
     current.textContent = s;
+    s = s.toString();
     if (s.length == 0) {
         decimals = 0;
     } else {
         let num = +s;
-        if (s%1 > 0) {
+        if (num%1 > 0) {
             decimals = 1
         } else {
-            if (!s.contains('.')) {
+            if (!s.includes(".")) {
                 decimals = 0;
             } else {
                 decimals = 1;
